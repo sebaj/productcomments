@@ -62,6 +62,14 @@ class ProductCommentsPostCommentModuleFrontController extends ModuleFrontControl
         $customer_name = Tools::getValue('customer_name');
         $criterions = (array) Tools::getValue('criterion');
 
+        // reCaptcha Module
+        $moduleReCaptcha = $this->getReCaptchaModule();
+        if($moduleReCaptcha) {
+            var_dump( $moduleReCaptcha->getCaptchaField() );
+            die;
+        }
+        // END reCaptcha Module
+
         /** @var ProductCommentRepository $productCommentRepository */
         $productCommentRepository = $this->context->controller->getContainer()->get('product_comment_repository');
         $isPostAllowed = $productCommentRepository->isPostAllowed(
@@ -210,4 +218,22 @@ class ProductCommentsPostCommentModuleFrontController extends ModuleFrontControl
 
         return $errors;
     }
+
+    /**
+     * Get External module for ReCaptcha V3
+     *
+     * @return Module
+     */
+    private function getReCaptchaModule()
+	{
+		if( Module::isInstalled('mdevrecaptcha') ) {
+			$module = Module::getInstanceByName('mdevrecaptcha');
+			if($module->active) {
+				return $module;
+			}
+			return false;
+		}
+
+		return false;
+	}
 }
