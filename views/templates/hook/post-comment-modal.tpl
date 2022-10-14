@@ -129,11 +129,15 @@
               <button type="button" class="btn btn-comment-inverse btn-comment-big" data-dismiss="modal" aria-label="{l s='Cancel' d='Modules.Productcomments.Shop'}">
                 {l s='Cancel' d='Modules.Productcomments.Shop'}
               </button>
-              <button type="submit" class="btn btn-comment btn-comment-big">
+              <button type="submit" class="btn btn-comment btn-comment-big" onclick="mdevrecaptcha_submitWidget(event, $(this))">
                 {l s='Send' d='Modules.Productcomments.Shop'}
               </button>
             </div>
           </div>
+
+          {* External module for Google ReCaptcha v3 *}
+          {widget name='mdevrecaptcha'}
+          
         </form>
       </div>
     </div>
