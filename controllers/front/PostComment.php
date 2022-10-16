@@ -69,6 +69,15 @@ class ProductCommentsPostCommentModuleFrontController extends ModuleFrontControl
             (int) $this->context->cookie->id_customer,
             (int) $this->context->cookie->id_guest
         );
+
+        // Hook to get extra validations
+        $extraValidation = Hook::exec('postCommentValidation', ['fields' => Tools::getAllValues()]);
+
+        if($extraValidation !== null) {
+            $isPostAllowed = $isPostAllowed && (bool) $extraValidation;
+        }
+        // End Hook to get extra validations
+
         if (!$isPostAllowed) {
             $this->ajaxRender(
                 json_encode(
